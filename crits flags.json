@@ -1,5 +1,133 @@
-{
-  "enableJumpBoost": true,
-  "enableLowGravity": true
-}
+local A=game:GetService("Players")
+local B=game:GetService("ReplicatedStorage")
+local C=game:GetService("UserInputService")
+local D=A.LocalPlayer
+local E=B:WaitForChild("Remotes"):WaitForChild("CharacterSoundEvent")
+
+local F=Instance.new("ScreenGui",D:WaitForChild("PlayerGui"))
+F.Name="K1ng Customization"
+F.ResetOnSpawn=false
+
+local function G(H,I)
+	local J,K,L
+	I.InputBegan:Connect(function(M)
+		if M.UserInputType==Enum.UserInputType.MouseButton1 or M.UserInputType==Enum.UserInputType.Touch then
+			J=true
+			K=M.Position
+			L=H.Position
+			M.Changed:Connect(function()
+				if M.UserInputState==Enum.UserInputState.End then J=false end
+			end)
+		end
+	end)
+	C.InputChanged:Connect(function(M)
+		if J and (M.UserInputType==Enum.UserInputType.MouseMovement or M.UserInputType==Enum.UserInputType.Touch) then
+			local N=M.Position-K
+			H.Position=UDim2.new(L.X.Scale,L.X.Offset+N.X,L.Y.Scale,L.Y.Offset+N.Y)
+		end
+	end)
+end
+
+local H=Instance.new("Frame",F)
+H.Size=UDim2.new(0,260,0,150)
+H.Position=UDim2.new(0.5,-130,0.5,-75)
+H.BackgroundColor3=Color3.fromRGB(240,240,240)
+H.BorderSizePixel=0
+Instance.new("UICorner",H).CornerRadius=UDim.new(0,8)
+H.Visible=false
+
+local I=Instance.new("Frame",H)
+I.Size=UDim2.new(1,0,0,26)
+I.BackgroundColor3=Color3.fromRGB(210,210,210)
+Instance.new("UICorner",I).CornerRadius=UDim.new(0,8)
+
+local J=Instance.new("TextLabel",I)
+J.Text="⚙️ K1ng Customization"
+J.Font=Enum.Font.GothamBold
+J.TextSize=13
+J.TextColor3=Color3.fromRGB(40,40,40)
+J.BackgroundTransparency=1
+J.Size=UDim2.new(1,-10,1,0)
+J.Position=UDim2.new(0,10,0,0)
+J.TextXAlignment=Enum.TextXAlignment.Left
+
+G(H,I)
+
+local K=Instance.new("Frame",H)
+K.Size=UDim2.new(1,-20,1,-36)
+K.Position=UDim2.new(0,10,0,30)
+K.BackgroundColor3=Color3.fromRGB(250,250,250)
+Instance.new("UICorner",K).CornerRadius=UDim.new(0,6)
+
+local L=Instance.new("TextLabel",K)
+L.Text="Backplate:"
+L.Font=Enum.Font.Gotham
+L.TextSize=12
+L.TextColor3=Color3.fromRGB(60,60,60)
+L.BackgroundTransparency=1
+L.Position=UDim2.new(0,10,0,8)
+L.Size=UDim2.new(0,100,0,18)
+
+local M=Instance.new("TextBox",K)
+M.Size=UDim2.new(0,160,0,24)
+M.Position=UDim2.new(0,10,0,26)
+M.PlaceholderText="Enter name..."
+M.Font=Enum.Font.Gotham
+M.TextSize=12
+M.TextColor3=Color3.fromRGB(40,40,40)
+M.BackgroundColor3=Color3.fromRGB(220,220,220)
+Instance.new("UICorner",M).CornerRadius=UDim.new(0,5)
+
+local N=Instance.new("TextLabel",K)
+N.Text="Number:"
+N.Font=Enum.Font.Gotham
+N.TextSize=12
+N.TextColor3=Color3.fromRGB(60,60,60)
+N.BackgroundTransparency=1
+N.Position=UDim2.new(0,10,0,55)
+N.Size=UDim2.new(0,100,0,18)
+
+local O=Instance.new("TextBox",K)
+O.Size=UDim2.new(0,160,0,24)
+O.Position=UDim2.new(0,10,0,73)
+O.PlaceholderText="Enter number..."
+O.Font=Enum.Font.Gotham
+O.TextSize=12
+O.TextColor3=Color3.fromRGB(40,40,40)
+O.BackgroundColor3=Color3.fromRGB(220,220,220)
+Instance.new("UICorner",O).CornerRadius=UDim.new(0,5)
+
+local P=Instance.new("TextButton",K)
+P.Size=UDim2.new(0,110,0,28)
+P.Position=UDim2.new(0,10,0,105)
+P.Text="Apply"
+P.Font=Enum.Font.GothamBold
+P.TextSize=12
+P.TextColor3=Color3.fromRGB(255,255,255)
+P.BackgroundColor3=Color3.fromRGB(100,100,100)
+Instance.new("UICorner",P).CornerRadius=UDim.new(0,6)
+
+local function Q()
+	local R=M.Text
+	local S=O.Text
+	local T=D.Character or D.CharacterAdded:Wait()
+	if T:WaitForChild("Uniform",5) then
+		E:FireServer("Game","Customization","Toggle","LeftGlove")
+		E:FireServer("Game","Customization","Toggle","RightGlove")
+		E:FireServer("Game","Customization","Number",S)
+		E:FireServer("Game","Customization","Name",R)
+	end
+end
+
+P.MouseButton1Click:Connect(Q)
+
+C.InputBegan:Connect(function(U,proc)
+	if not proc then
+		local k = U.KeyCode
+		if k==Enum.KeyCode.DPadUp or k==Enum.KeyCode.Q then
+			H.Visible=not H.Visible
+		end
+	end
+end)
+
 
